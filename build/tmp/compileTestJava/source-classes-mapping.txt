@@ -1,0 +1,30 @@
+com/amazon/ata/dynamodbquery/activity/GetEventAnnouncementsActivityTest.java
+ com.amazon.ata.dynamodbquery.activity.GetEventAnnouncementsActivityTest
+com/amazon/ata/dynamodbquery/test/integration/Phase0Test.java
+ com.amazon.ata.dynamodbquery.test.integration.Phase0Test
+com/amazon/ata/dynamodbquery/activity/GetInvitesForEventActivityTest.java
+ com.amazon.ata.dynamodbquery.activity.GetInvitesForEventActivityTest
+com/amazon/ata/dynamodbquery/test/integration/test/helper/ActivityProvider.java
+ com.amazon.ata.dynamodbquery.test.integration.test.helper.ActivityProvider
+com/amazon/ata/dynamodbquery/dao/MemberDaoTest.java
+ com.amazon.ata.dynamodbquery.dao.MemberDaoTest
+com/amazon/ata/dynamodbquery/dao/EventDaoTest.java
+ com.amazon.ata.dynamodbquery.dao.EventDaoTest
+com/amazon/ata/dynamodbquery/test/integration/test/helper/TestDataProvider.java
+ com.amazon.ata.dynamodbquery.test.integration.test.helper.TestDataProvider
+com/amazon/ata/dynamodbquery/test/integration/Phase3Test.java
+ com.amazon.ata.dynamodbquery.test.integration.Phase3Test
+com/amazon/ata/dynamodbquery/dao/EventAnnouncementDaoTest.java
+ com.amazon.ata.dynamodbquery.dao.EventAnnouncementDaoTest
+com/amazon/ata/dynamodbquery/test/integration/Phase2Test.java
+ com.amazon.ata.dynamodbquery.test.integration.Phase2Test
+com/amazon/ata/dynamodbquery/test/integration/Phase4Test.java
+ com.amazon.ata.dynamodbquery.test.integration.Phase4Test
+com/amazon/ata/dynamodbquery/test/integration/Phase1Test.java
+ com.amazon.ata.dynamodbquery.test.integration.Phase1Test
+com/amazon/ata/dynamodbquery/dao/InviteDaoTest.java
+ com.amazon.ata.dynamodbquery.dao.InviteDaoTest
+com/amazon/ata/dynamodbquery/activity/DeleteMemberActivityTest.java
+ com.amazon.ata.dynamodbquery.activity.DeleteMemberActivityTest
+com/amazon/ata/dynamodbquery/activity/GetEventAnnouncementsBetweenDatesActivityTest.java
+ com.amazon.ata.dynamodbquery.activity.GetEventAnnouncementsBetweenDatesActivityTest
