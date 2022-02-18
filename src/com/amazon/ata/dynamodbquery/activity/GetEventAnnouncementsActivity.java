@@ -3,6 +3,7 @@ package com.amazon.ata.dynamodbquery.activity;
 import com.amazon.ata.dynamodbquery.dao.EventAnnouncementDao;
 import com.amazon.ata.dynamodbquery.dao.models.EventAnnouncement;
 
+import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
 
@@ -32,6 +33,7 @@ public class GetEventAnnouncementsActivity {
      * @return List of announcements for the event.
      */
     public List<EventAnnouncement> handleRequest(final String eventId) {
-        return eventAnnouncementDao.getEventAnnouncements(eventId);
+        // TODO: implement
+        return Collections.emptyList();
     }
 }

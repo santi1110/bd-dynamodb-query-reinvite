@@ -2,7 +2,6 @@ package com.amazon.ata.dynamodbquery.activity;
 
 import com.amazon.ata.dynamodbquery.dao.MemberDao;
 import com.amazon.ata.dynamodbquery.dao.models.Member;
-import com.amazon.ata.dynamodbquery.dependency.ServiceComponent;
 
 import javax.inject.Inject;
 
@@ -11,7 +10,6 @@ import javax.inject.Inject;
  */
 public class GetMemberActivity {
     private MemberDao memberDao;
- //   private static final ServiceComponent DAGGER = DaggerServiceComponent.create();
 
     /**
      * Constructs an activity from provided member DAO.

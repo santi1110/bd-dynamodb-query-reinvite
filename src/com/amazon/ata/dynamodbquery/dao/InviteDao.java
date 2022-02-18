@@ -4,7 +4,6 @@ import com.amazon.ata.dynamodbquery.dao.models.Invite;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDeleteExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
@@ -14,9 +13,7 @@ import com.google.common.collect.ImmutableMap;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import javax.inject.Inject;
 
@@ -75,22 +72,8 @@ public class InviteDao {
      * @return Paginated list of invites.
      */
     public List<Invite> getInvitesForEvent(String eventId, String exclusiveStartMemberId) {
-        Invite invite = new Invite();
-        invite.setEventId(eventId);
-
-        Map<String, AttributeValue> exclusiveStartKey = null;
-        if (exclusiveStartMemberId != null) {
-            exclusiveStartKey = new HashMap<>();
-            exclusiveStartKey.put("eventId", new AttributeValue(eventId));
-            exclusiveStartKey.put("memberId", new AttributeValue(exclusiveStartMemberId));
-        }
-
-        DynamoDBQueryExpression<Invite> queryExpression = new DynamoDBQueryExpression<Invite>()
-            .withHashKeyValues(invite)
-            .withExclusiveStartKey(exclusiveStartKey)
-            .withLimit(10);
-
-        return mapper.queryPage(Invite.class, queryExpression).getResults();
+        // TODO: implement
+        return Collections.emptyList();
     }
 
     /**

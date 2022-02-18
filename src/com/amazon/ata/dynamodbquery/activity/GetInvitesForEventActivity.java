@@ -3,6 +3,7 @@ package com.amazon.ata.dynamodbquery.activity;
 import com.amazon.ata.dynamodbquery.dao.InviteDao;
 import com.amazon.ata.dynamodbquery.dao.models.Invite;
 
+import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
 
@@ -29,6 +30,7 @@ public class GetInvitesForEventActivity {
      * @return Paginated list of Invite objects for the event.
      */
     public List<Invite> handleRequest(final String eventId, final String exclusiveStartMemberId) {
-        return inviteDao.getInvitesForEvent(eventId, exclusiveStartMemberId);
+        // TODO: implement
+        return Collections.emptyList();
     }
 }

@@ -4,6 +4,7 @@ import com.amazon.ata.dynamodbquery.dao.EventAnnouncementDao;
 import com.amazon.ata.dynamodbquery.dao.models.EventAnnouncement;
 
 import java.time.ZonedDateTime;
+import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
 
@@ -35,6 +36,7 @@ public class GetEventAnnouncementsBetweenDatesActivity {
      * @return list of announcements posted in the given time range for the event
      */
     public List<EventAnnouncement> handleRequest(final String eventId, final ZonedDateTime startTime, final ZonedDateTime endTime) {
-        return eventAnnouncementDao.getEventAnnouncementsBetweenDates(eventId, startTime, endTime);
+        // TODO: implement
+        return Collections.emptyList();
     }
 }

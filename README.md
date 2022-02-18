@@ -1,18 +1,5 @@
 # Re-Invites
 
-**branch name:** dynamodbquery-classroom
-
-**AWS account:** (account number for AWS account that ATA gave you --
-[find on Conduit](https://access.amazon.com/aws/accounts) )
-
-**role:** IibsAdminAccess-DO-NOT-DELETE
-
-**RDE workflows:**
-- `dynamodbquery-classroom-phase0`
-- `dynamodbquery-classroom-phase1`
-- `dynamodbquery-classroom-phase2`
-- `dynamodbquery-classroom-phase3`
-
 ## Introduction
 
 We're continuing to build our app that lets members create events (e.g. parties, book
@@ -35,8 +22,6 @@ We'll be using four key entities in our app:
 * EventAnnouncements: Announcements posted for events
     * Partition key: eventId
     * Sort key: timePublished
-
-See this [Plant UML diagram of the 4 entities](https://tiny.amazon.com/uczo2w6t/plancorpamazplanformencohtml)
 
 The new functionality we are adding focuses on:
 * EventAnnouncements
@@ -73,22 +58,27 @@ to see more detail!
 
 ## Phase 0: Preliminaries
 
-1. Make sure `ada` is running with the credentials specified at the top of this README
-(should be your AWS account that ATA gave you).
-1. Log into your AWS account on Conduit and verify that the tables exist and have
+1. Create the tables we'll be using for this activity by running these aws CLI commands:
+   ```none
+   aws cloudformation create-stack --region us-west-2 --stack-name dynamodbquery-eventstable --template-body file://cloudformation/events_table.yaml --capabilities CAPABILITY_IAM
+   aws cloudformation create-stack --region us-west-2 --stack-name dynamodbquery-invitestable --template-body file://cloudformation/invites_table.yaml --capabilities CAPABILITY_IAM
+   aws cloudformation create-stack --region us-west-2 --stack-name dynamodbquery-memberstable --template-body file://cloudformation/members_table.yaml --capabilities CAPABILITY_IAM
+   aws cloudformation create-stack --region us-west-2 --stack-name dynamodbquery-eventannouncementstable01 --template-body file://cloudformation/event_announcements_table.yaml --capabilities CAPABILITY_IAM
+   ```
+
+1. Log into your AWS account and verify that the tables exist and have
    sample data.
 1. Discuss the different attributes with your team to make sure you all understand
    what they represent.
-1. As a final verification, run the `dynamodbquery-classroom-phase0` RDE workflow
-   and make sure it passes.
+1. As a final verification, run the `Phase0Test` tests and make sure they passes.
 
 GOAL: Events, Invites, Members, and EventAnnouncements tables are all created in your AWS Account, and
 the attributes make sense
 
 Phase 0 is complete when:
-- You understand the 3 data types and their relationships
-- Events, Invites, Members tables exist with some sample data
-- `dynamodbquery-classroom-phase0` RDE workflow passes
+- You understand the 4 data types and their relationships
+- Events, Invites, Members, EventAnnouncements tables exist with some sample data
+- `Phase0Test` tests pass
 
 
 ## Phase 1: Get all announcements for an event
@@ -115,14 +105,13 @@ This method has been declared for you, but you'll be implementing it!
       to this test.
 1. Implement `GetEventAnnouncementsActivity`'s `handleRequest()` method. Ensure the tests in
    `GetEventAnnouncementsActivityTest` are passing.
-1. Verify end-to-end using the integration test by running the `dynamodbquery-classroom-phase1` 
-   RDE workflow.
+1. Verify end-to-end using the integration test by running `Phase1Test`
 
 GOAL: We can request a list of event announcements for a specific event.
 
 Phase 1 is complete when:
 - The above unit tests are passing
-- `dynamodbquery-classroom-phase1` RDE workflow passes
+- `Phase1Test` tests pass
 
 
 ## Phase 2: Get Event Announcements Between Dates
@@ -147,14 +136,13 @@ The activity class will call the `getEventAnnouncementsBetweenDates()` method in
    `EventAnnouncementDao` receives a call to `getEventAnnouncementsBetweenDates()` when its method
    is invoked.
 1. Implement `GetEventAnnouncementsBetweenDatesActivity`'s `handleRequest()` method.
-1. Verify end-to-end using the integration test by running the
-   `dynamodbquery-classroom-phase2` RDE workflow.
+1. Verify end-to-end using the integration test by running `Phase2Test`.
    
 GOAL: We can request a list of announcements posted between particular dates for a particular event.
 
 Phase 2 is complete when:
 - The above unit tests are passing
-- `dynamodbquery-classroom-phase2` RDE workflow passes
+- `Phase2Test` tests pass
 
 ## Phase 3: Pagination
 
@@ -183,14 +171,13 @@ The Activity is also stubbed out in `GetInvitesForEventActivity`.
    `InviteDao` receives a call to `getInvitesForEvent()` when its method
    is invoked.
 1. Implement `GetInvitesForEventActivity`'s `handleRequest()` method.
-1. Verify end-to-end using the integration test by running the
-   `dynamodbquery-classroom-phase3` RDE workflow.
+1. Verify end-to-end using the integration test by running `Phase3Test`.
 
 GOAL: We can request a list of paginated invites for a specific event.
 
 Phase 3 is complete when:
 - The above unit tests are passing
-- `dynamodbquery-classroom-phase3` RDE workflow passes
+- `Phase3Test` tests pass
 
 ## EXTENSION 1 - Use ArgumentCaptors in your unit tests
 Let's update your unit tests that you wrote to use a new mocking tool called `ArgumentCaptor`s. ([Javadoc](https://site.mockito.org/javadoc/current/org/mockito/ArgumentCaptor.html))
@@ -242,7 +229,7 @@ Add a new unit test in `InviteDao` using `ArgumentCaptor`s to verify the behavio
 the GSI was used in the `DynamoDBQueryExpression`. 
 
 The `getInvitesSentToMember` method is already in use by `GetInvitesForMemberActivity`'s `handleRequest()` method.
-You can verify end-to-end using the integration test by running the `dynamodbquery-classroom-phase4` RDE workflow.
+You can verify end-to-end using the integration test by running `Phase4Test`.
 
 
 
