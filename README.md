@@ -92,17 +92,6 @@ This method has been declared for you, but you'll be implementing it!
 
 1. Implement `getEventAnnouncements()` in `EventAnnouncementDao` to return all event announcements
    for the given `eventId`.   
-1. Add a unit test to `EventAnnouncementDaoTest` for the case where the event ID provided has 
-   announcements, i.e. the happy case where DynamoDB returns a list of results.
-   Some notes on writing unit tests for `query` calls:
-   * You will need to mock the `query` call to `DynamoDBMapper` to return a list of
-      accepted invites. The `query` method returns a `PaginatedQueryList`. These are pretty tough 
-      to create - go ahead and open the class and take a look at the constructor! Instead, let's
-      mock it! Have your `thenReturn` method return a mocked `PaginatedQueryList`.
-   * We can inspect the `DynamoDBQueryExpression` passed into `query` using a mocking tool called 
-      `ArgumentCaptor`. You do not need to use `ArgumentCaptor`s for this phase, but we encourage you 
-      to take a look at Extension 1 of this activity, which walks through adding an `ArgumentCaptor` 
-      to this test.
 1. Implement `GetEventAnnouncementsActivity`'s `handleRequest()` method. Ensure the tests in
    `GetEventAnnouncementsActivityTest` are passing.
 1. Verify end-to-end using the integration test by running `Phase1Test`
@@ -131,10 +120,6 @@ The activity class will call the `getEventAnnouncementsBetweenDates()` method in
      and `endDate` into the proper string format when passing them into your query expression. Use 
      the provided `ZonedDateTimeConverter` class (under `com.amazon.ata.dynamodbquery.converter`) 
      to convert the `ZonedDateTime`s into `Strings`.
-1. Add a unit test to `EventAnnouncementDaoTest` to test `getEventAnnouncementsBetweenDates()`. 
-1. Add a unit test to `GetEventAnnoucementsBetweenDatesActivityTest` to `verify()` that
-   `EventAnnouncementDao` receives a call to `getEventAnnouncementsBetweenDates()` when its method
-   is invoked.
 1. Implement `GetEventAnnouncementsBetweenDatesActivity`'s `handleRequest()` method.
 1. Verify end-to-end using the integration test by running `Phase2Test`.
    
@@ -164,12 +149,6 @@ The Activity is also stubbed out in `GetInvitesForEventActivity`.
 1. Implement `InviteDao.getInvitesForEvent()` to return the next 10 invites for
    that event ID, based on the passed `exclusiveStartMemberId`. (If `exclusiveStartMemberId`
    is null, you should be getting the first 10 invites in the table.)
-1. Add a unit test to `InviteDaoTest` to `verify()` that `DynamoDBMapper` receives
-   a query call to with the expected parameters when `InviteDao.getInvitesForEvent()` is called.
-   Like with Phase 1, use `ArgumentCaptor`s to help test your query calls. 
-1. Add a unit test to `GetInvitesForEventActivityTest` to `verify()` that
-   `InviteDao` receives a call to `getInvitesForEvent()` when its method
-   is invoked.
 1. Implement `GetInvitesForEventActivity`'s `handleRequest()` method.
 1. Verify end-to-end using the integration test by running `Phase3Test`.
 
@@ -178,58 +157,4 @@ GOAL: We can request a list of paginated invites for a specific event.
 Phase 3 is complete when:
 - The above unit tests are passing
 - `Phase3Test` tests pass
-
-## EXTENSION 1 - Use ArgumentCaptors in your unit tests
-Let's update your unit tests that you wrote to use a new mocking tool called `ArgumentCaptor`s. ([Javadoc](https://site.mockito.org/javadoc/current/org/mockito/ArgumentCaptor.html))
-
-1. Update your unit test you wrote for phase 1 in `EventAnnoucementDaoTest` for the case where the event ID provided
-   has invites. An example of a unit test that uses an `ArgumentCaptor` similar to the one we are about to write 
-   can be found in your project. Read through `getBookFromCatalog_oneVersion_returnVersion1` in `CatalogDaoTest` 
-   before we get started.   
-1. In addition to the assertions you've already added, let's also verify that `query` was called and
-   use our captor to inspect the `DynamoDBQueryExpression` that was passed to it. An `ArgumentCaptor` can
-   be used to capture arguments for mocked methods. Let's declare one in the `GIVEN` section: 
-   ```
-   ArgumentCaptor<DynamoDBQueryExpression<EventAnnoucement>> captor = ArgumentCaptor.forClass(DynamoDBQueryExpression.class);
-   ```
-1. Now in your `THEN` section, let's verify that the `query` method was called and capture the state of 
-   the provided `DynamoDBQueryExpression`. Here, we use the `capture` method in place of a `Matcher`.   
-   ```
-   verify(mapper).query(eq(EventAnnoucement.class), captor.capture());
-   ```
-1. Calling `captor.getValue()` will now return the `DynamoDBQueryExpression` that was passed to query. We can
-   retrieve values from it, like the `EventAnnouncement` passed to its `withHashKeyValues` method. 
-   ```
-   DynamoDBQueryExpression<EventAnnouncement> capturedQueryExpression = captor.getValue();
-   EventAnnouncement eventAnnouncement = capturedQueryExpression.getHashKeyValues();
-   ```
-1. For now, let's just verify that the `EventAnnouncement` provided to our `DynamoDBQueryExpression` has
-   the correct `eventId` value. 
-   
-Run your updated unit test and ensure that it still passes. Then update the rest of your unit tests to use
-`ArgumentCaptors` for testing your `query` calls!
-
-## EXTENSION 2 - Replacing Scan with a Query
-Scanning is an expensive and slow operation in DynamoDB. Depending on your table design, this is your 
-only option. However, DynamoDB allows us to add a Global Secondary Index (GSI), which tells
-DynamoDB to maintain a copy of our table, but with a different key. In this phase, we have created a GSI with
-a new partition and sort key, `memberId` and `timeReceived`. Take a look at the Invite model to see the new annotations
-on these fields, `@DynamoDBIndexHashKey` and `@DynamoDBIndexRangeKey`. 
-
-Let's write a query that uses this new copy of our table. Update `getInvitesSentToMember` in `InviteDao` to use a 
-query, rather than a scan. Using a GSI requires that we use a Key Condition Expression to specify our partition key. 
-There are a couple other things we will need to add to our `DynamoDBQueryExpression`. We need to specify the name of
-out index using `withIndexName`. Finally, querying a GSI does NOT support consistent reads. You have to explicitly
-acknowledge this by setting this to `false` using `withConsistentRead`.
-
-Make sure to still return the results as an `ArrayList`, so that we call `listIterator()` on it in 
-`GetInvitesForMemberActivity`.
-
-Add a new unit test in `InviteDao` using `ArgumentCaptor`s to verify the behavior. Try verifying that
-the GSI was used in the `DynamoDBQueryExpression`. 
-
-The `getInvitesSentToMember` method is already in use by `GetInvitesForMemberActivity`'s `handleRequest()` method.
-You can verify end-to-end using the integration test by running `Phase4Test`.
-
-
 
