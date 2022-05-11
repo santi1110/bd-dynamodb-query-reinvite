@@ -37,24 +37,9 @@ that our service supports. That Activity may depend on several of
 use cases. Each DAO is responsible for one model type, and only interacts
 with that model's DynamoDB table.
 
-Disclaimer: One difference that you'll notice here is that our Activity
-classes don't yet accept/return Response/Result objects. They're
-accepting/returning individual values. We'll do this until it's time to
-create our service infrastructure and create the necessary Coral models.
-That retrofit is beyond the scope of this activity, but will be fairly
-easily accomplished in the Activity classes themselves when the time comes.
 
 You'll primarily be updating DAO and Activity code, but will touch a few tests
 as well, where appropriate (we'll guide you!).
-
-For each "Phase" of the activity, there's a corresponding RDE workflow that
-will test that you've satisfied the requirements for that phase. Also make
-sure that the relevant unit tests for the classes you're working on are
-passing (typically one Activity and 1-3 DAOs).
-
-Helpful hint: If an RDE workflow is failing for one of the phases, and you want to
-see more about the test failure, use the file URL that is printed out on the commandline
-to see more detail!
 
 ## Phase 0: Preliminaries
 
@@ -65,12 +50,7 @@ to see more detail!
    aws cloudformation create-stack --region us-west-2 --stack-name dynamodbquery-memberstable --template-body file://cloudformation/members_table.yaml --capabilities CAPABILITY_IAM
    aws cloudformation create-stack --region us-west-2 --stack-name dynamodbquery-eventannouncementstable01 --template-body file://cloudformation/event_announcements_table.yaml --capabilities CAPABILITY_IAM
    ```
-
-1. Log into your AWS account and verify that the tables exist and have
-   sample data.
-1. Discuss the different attributes with your team to make sure you all understand
-   what they represent.
-1. As a final verification, run the `Phase0Test` tests and make sure they passes.
+2. For verification, run the `Phase0Test` tests and make sure they all pass.
 
 GOAL: Events, Invites, Members, and EventAnnouncements tables are all created in your AWS Account, and
 the attributes make sense
@@ -92,9 +72,9 @@ This method has been declared for you, but you'll be implementing it!
 
 1. Implement `getEventAnnouncements()` in `EventAnnouncementDao` to return all event announcements
    for the given `eventId`.   
-1. Implement `GetEventAnnouncementsActivity`'s `handleRequest()` method. Ensure the tests in
+2. Implement `GetEventAnnouncementsActivity`'s `handleRequest()` method. Ensure the tests in
    `GetEventAnnouncementsActivityTest` are passing.
-1. Verify end-to-end using the integration test by running `Phase1Test`
+3. Verify end-to-end using the integration test by running `Phase1Test`
 
 GOAL: We can request a list of event announcements for a specific event.
 
@@ -120,8 +100,8 @@ The activity class will call the `getEventAnnouncementsBetweenDates()` method in
      and `endDate` into the proper string format when passing them into your query expression. Use 
      the provided `ZonedDateTimeConverter` class (under `com.amazon.ata.dynamodbquery.converter`) 
      to convert the `ZonedDateTime`s into `Strings`.
-1. Implement `GetEventAnnouncementsBetweenDatesActivity`'s `handleRequest()` method.
-1. Verify end-to-end using the integration test by running `Phase2Test`.
+2. Implement `GetEventAnnouncementsBetweenDatesActivity`'s `handleRequest()` method.
+3. Verify end-to-end using the integration test by running `Phase2Test`.
    
 GOAL: We can request a list of announcements posted between particular dates for a particular event.
 
@@ -149,12 +129,13 @@ The Activity is also stubbed out in `GetInvitesForEventActivity`.
 1. Implement `InviteDao.getInvitesForEvent()` to return the next 10 invites for
    that event ID, based on the passed `exclusiveStartMemberId`. (If `exclusiveStartMemberId`
    is null, you should be getting the first 10 invites in the table.)
-1. Implement `GetInvitesForEventActivity`'s `handleRequest()` method.
-1. Verify end-to-end using the integration test by running `Phase3Test`.
+2. Implement `GetInvitesForEventActivity`'s `handleRequest()` method.
+3. Verify end-to-end using the integration test by running `Phase3Test`.
 
 GOAL: We can request a list of paginated invites for a specific event.
 
 Phase 3 is complete when:
 - The above unit tests are passing
 - `Phase3Test` tests pass
+
 
