@@ -15,6 +15,11 @@ import javax.inject.Inject;
 public class EventAnnouncementDao {
 
     private DynamoDBMapper mapper;
+    
+    // Define a constant to represent the Date/time converter we are using
+    // This is done to make it easier if we need to change the converter
+    // NOT REQUIRED FOR DYNAMODB ACCESS
+    private static final ZonedDateTimeConverter ZONED_DATE_TIME_CONVERTER = new ZonedDateTimeConverter();
 
     /**
      * Creates an EventDao with the given DDB mapper.
