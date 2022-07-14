@@ -1,6 +1,7 @@
 package com.amazon.ata.dynamodbquery.dao;
 
 import com.amazon.ata.dynamodbquery.dao.models.EventAnnouncement;
+import com.amazon.ata.dynamodbquery.converter.ZonedDateTimeConverter;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 
