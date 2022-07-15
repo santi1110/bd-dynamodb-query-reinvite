@@ -38,8 +38,7 @@ use cases. Each DAO is responsible for one model type, and only interacts
 with that model's DynamoDB table.
 
 
-You'll primarily be updating DAO and Activity code, but will touch a few tests
-as well, where appropriate (we'll guide you!).
+You'll primarily be updating DAO and Activity code.
 
 ## Phase 0: Preliminaries
 
