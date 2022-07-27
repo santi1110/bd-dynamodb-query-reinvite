@@ -129,7 +129,7 @@ public class EventAnnouncementDaoTest {
             "Expected the expression attribute value map to contain the end time.");
 
         String keyExpression = capturedQueryExpression.getKeyConditionExpression();
-        assertEquals(keyExpression, "eventId = :eventId and timePublished between :startDate and :endDate",
+        assertEquals(keyExpression, "eventId = :eventId and timePublished between :startTime and :endTime",
             "Expected the key expression to contain the event id and time published between condition");
     }
 }
