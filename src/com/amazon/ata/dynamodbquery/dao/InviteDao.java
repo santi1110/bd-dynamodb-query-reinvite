@@ -1,9 +1,10 @@
-package com.amazon.ata.dynamodbquery.dao;
+<package com.amazon.ata.dynamodbquery.dao;
 
 import com.amazon.ata.dynamodbquery.dao.models.Invite;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDeleteExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
@@ -73,7 +74,9 @@ public class InviteDao {
      */
     public List<Invite> getInvitesForEvent(String eventId, String exclusiveStartMemberId) {
         // TODO: implement
-        return Collections.emptyList();
+
+        DynamoDBQueryExpression
+        return
     }
 
     /**
